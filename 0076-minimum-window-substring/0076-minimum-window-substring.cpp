@@ -34,6 +34,10 @@ public:
                     minLength = r-l+1;
                     ans = s.substr(l,minLength);
                 }
+
+                window[s[l]]--;
+                l++;
+                count--;
             }
         }
 
