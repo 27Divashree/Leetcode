@@ -15,14 +15,13 @@ public:
             return a->val > b->val;
         }
     };
-    ListNode* mergeKLists(vector<ListNode*>& listArray) {
-        priority_queue<ListNode *, vector<ListNode *>, compare> minHeap;
+    ListNode* mergeKLists(vector<ListNode*>& listArray) {        
+        priority_queue<ListNode*, vector<ListNode*>, compare> minHeap;
+        int n = listArray.size();
+        if(n==0)
+            return 0;
 
-        int k = listArray.size();
-        if(k==0)
-            return NULL;
-        //step1:
-        for(int i=0;i<k;i++){
+        for(int i=0;i<n;i++){
             if(listArray[i]!=NULL)
                 minHeap.push(listArray[i]);
         }
@@ -30,27 +29,27 @@ public:
         ListNode* head = NULL;
         ListNode* tail = NULL;
 
-        while(minHeap.size()>0){
+        while(minHeap.size()>0)
+        {
             ListNode* temp = minHeap.top();
             minHeap.pop();
 
             if(temp->next!=NULL)
-                    minHeap.push(temp->next);
-
+                minHeap.push(temp->next);
+            
             if(head==NULL)
             {
-                //answer LL is empty
                 head = temp;
                 tail = temp;
             }
+
             else
             {
-                //insert at LL
                 tail->next = temp;
                 tail = temp;
             }
         }
-        return head;
 
+        return head;
     }
 };
