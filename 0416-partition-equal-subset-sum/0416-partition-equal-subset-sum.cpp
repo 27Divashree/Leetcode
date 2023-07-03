@@ -57,6 +57,31 @@ public:
         return dp[0][total/2];
     }
 
+    bool solveSO(int N,vector<int>& nums,int total)
+    {
+        vector<int> curr(total/2 + 1,0);
+        vector<int> next(total/2 + 1,0);
+
+        curr[0] = 1;
+        next[0] = 1;
+        
+        for(int index = N-1;index>=0;index--)
+        {
+            for(int target=0;target<=total/2;target++)
+            {
+                bool incl = 0;
+                if(target-nums[index]>=0)
+                    incl = next[target-nums[index]];
+                bool excl = next[target-0];
+
+                curr[target] = incl or excl;
+            }
+            next = curr;
+        }
+
+        return next[total/2];
+    }
+
     bool canPartition(vector<int>& nums) {
         int N = nums.size();
         int total = 0;
@@ -68,6 +93,7 @@ public:
         //return solveRec(0,nums,target);
         //vector<vector<int>> dp(N, vector<int>(target+1,-1));
         //return solveMem(0,nums,N,target,dp);
-        return solveTab(N,nums,total);
+        //return solveTab(N,nums,total);
+        return solveSO(N,nums,total);
     }
 };
