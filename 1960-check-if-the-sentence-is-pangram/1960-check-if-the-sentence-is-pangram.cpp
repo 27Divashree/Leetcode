@@ -1,6 +1,12 @@
 class Solution {
 public:
-    bool checkIfPangram(string sentence) {
-        return size(unordered_set<char>{begin(sentence), end(sentence)}) == 26;
+    bool checkIfPangram(string s) {
+        sort(s.begin(), s.end());
+        map<char, int> mp;
+        for(auto i : s)
+        {
+            mp[i]++;
+        }
+        return mp.size()==26;
     }
 };
