@@ -1,37 +1,39 @@
 class Solution {
-public:
-    int solveMem(string &s,vector<vector<int>> &dp,int i,int j)
-    {
-        if(i==j || i>j)
-            return 1;
-        if(dp[i][j]!=-1)
-            return dp[i][j];
-        
-        if(s[i]==s[j])
-            dp[i][j] = solveMem(s,dp,i+1,j-1);
-        else
-            dp[i][j] = 0;
-        
-        solveMem(s,dp,i+1,j);
-        solveMem(s,dp,i,j-1);
-
-        return dp[i][j];
-    }
-    string longestPalindrome(string s) {
-        int n = s.length();
-        vector<vector<int>> dp(n+1, vector<int>(n+1,-1));
-        solveMem(s,dp,0,n-1);
-        int x = 0, y=0;
-
-        for(int i=0;i<=n;i++)
-        {
-            for(int j=i+1; j<=n; j++)
-            {
-                if(dp[i][j]==1 && j-i>y-x)
-                    x=i, y = j;
+private: 
+    bool solve(vector<vector<bool>> &dp, int i, int j, string &s){
+        if(i == j){
+            return dp[i][j] = true;
+        }
+        if(j-i == 1){
+            if(s[i] == s[j]){
+                return dp[i][j] = true;
+            }
+            else{
+                return dp[i][j] = false;
             }
         }
-
-        return s.substr(x,y-x+1);
+        if(s[i] == s[j] && dp[i+1][j-1] == true){
+            return dp[i][j] = true;
+        } else {
+            return dp[i][j] = false;
+        }
+    }
+public:
+    string longestPalindrome(string s) {
+        int n = s.size();
+        int startIndex = 0; int maxlen = 0;
+        vector<vector<bool>> dp(n, vector<bool>(n, false));
+        for(int g=0; g<n; g++){
+            for(int i=0, j=g; j<n; i++, j++){
+                solve(dp, i, j, s);
+                if(dp[i][j] == true){
+                    if(j-i+1 > maxlen){
+                        startIndex = i;
+                        maxlen = j-i+1;
+                    }
+                }
+            }
+        }
+        return s.substr(startIndex, maxlen);
     }
 };
