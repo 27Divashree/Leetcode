@@ -1,5 +1,40 @@
 class Solution {
 public:
+int solveRec(vector<int>& num,int x)
+{
+    if(x==0)
+        return 0;
+    if(x<0)
+        return INT_MAX;
+    int mini = INT_MAX;
+    for(int i = 0;i<num.size();i++)
+    {
+        int ans = solveRec(num,x-num[i]);
+        if(ans!=INT_MAX)
+            mini = min(mini,1+ans);
+    }
+    return mini;
+}
+
+int solveMem(vector<int>& num,int x,vector<int>& dp)
+{
+    if(x==0)
+        return 0;
+    if(x<0)
+        return INT_MAX;
+    if(dp[x]!=-1)
+        return dp[x];
+
+    int mini = INT_MAX;
+    for(int i = 0;i<num.size();i++)
+    {
+        int ans = solveMem(num,x-num[i],dp);
+        if(ans!=INT_MAX)
+            mini = min(mini,1+ans);
+    }
+    return dp[x]=mini;
+}
+
 int solveTab(vector<int> &num, int x)
 {
     vector<int> dp(x+1,INT_MAX);
@@ -20,6 +55,11 @@ int solveTab(vector<int> &num, int x)
     return dp[x];
 }
     int coinChange(vector<int>& coins, int amount) {
-        return solveTab(coins,amount);
+        //int ans = solveRec(coins,amount);
+        //return (ans<INT_MAX-1)? ans:-1;
+        vector<int> dp(amount+1,-1);
+        int ans = solveMem(coins,amount,dp);
+        return (ans<INT_MAX-1)? ans:-1;
+        //return solveTab(coins,amount);
     }
 };
