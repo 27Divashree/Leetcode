@@ -13,18 +13,20 @@ public:
                 int profit = 0;
                 if(buy)
                 {
-                    int doBuy = -prices[index] + next[0];
+                    int doBuy = -prices[index]+next[0];
                     int skip = 0 + next[1];
                     profit = max(doBuy,skip);
                 }
                 else
                 {
-                    int doSell = prices[index] + next[1];
+                    int doSell = prices[index]+next[1];
                     int skip = 0 + next[0];
                     profit = max(doSell,skip);
                 }
+
                 curr[buy] = profit;
             }
+
             next = curr;
         }
         return next[1];
