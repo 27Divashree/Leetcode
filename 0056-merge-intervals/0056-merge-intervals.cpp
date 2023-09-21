@@ -1,11 +1,10 @@
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
-        if(intervals.size()<=1)
+        if(intervals.size()==1)
             return intervals;
         
         sort(intervals.begin(),intervals.end());
-
         vector<vector<int>> output;
         output.push_back(intervals[0]);
 
@@ -16,7 +15,6 @@ public:
             else
                 output.push_back(intervals[i]);
         }
-
         return output;
     }
 };
