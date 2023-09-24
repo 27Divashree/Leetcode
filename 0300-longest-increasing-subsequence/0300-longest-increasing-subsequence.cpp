@@ -1,21 +1,29 @@
 class Solution {
 public:
-    int solve(int n,vector<int>& nums,int curr,int prev,vector<vector<int>> &dp)
+    int solve(int n,vector<int>& a)
     {
-        if(curr==n)
-            return 0;
-        if(dp[prev+1][curr]!=-1)
-            return dp[curr][prev+1];
-        int incl = 0;
-        if(prev==-1 || nums[curr]>nums[prev])
-            incl = 1 + solve(n,nums,curr+1,curr,dp);
-        int excl = 0 + solve(n,nums,curr+1,prev,dp);
-
-        return dp[curr][prev+1] = max(incl,excl);
+        vector<int> currRow(n+1,0);//dp[curr]
+        vector<int> nextRow(n+1,0);//dp[curr+1]
+        
+        for(int curr=n-1;curr>=0;curr--)
+        {
+            for(int prev = curr-1;prev>=-1;prev--)
+            {
+                //include
+                int incl = 0;
+                
+                if(prev==-1 || a[curr]>a[prev])
+                    incl = 1 + nextRow[curr+1];
+                
+                int excl = 0 + nextRow[prev+1];
+                
+                currRow[prev+1] = max(incl,excl);
+            }
+            nextRow = currRow;
+        }
+        return nextRow[0];
     }
     int lengthOfLIS(vector<int>& nums) {
-        int n = nums.size();
-        vector<vector<int>>  dp(n+1,vector<int>(n+1,-1));
-        return solve(n,nums,0,-1,dp);
+        return solve(nums.size(),nums);
     }
 };
