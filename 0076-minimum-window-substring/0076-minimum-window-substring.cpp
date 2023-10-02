@@ -10,8 +10,8 @@ public:
 
         for(int i=0;i<t.length();i++)
             map[t[i]]++;
-        
-        int minLength  = INT_MAX, count = 0;
+
+        int minLength = INT_MAX, count = 0;
         for(int l=0,r=0;r<s.length();r++)
         {
             char c = s[r];
@@ -34,13 +34,11 @@ public:
                     minLength = r-l+1;
                     ans = s.substr(l,minLength);
                 }
-
                 window[s[l]]--;
                 l++;
                 count--;
             }
         }
-
         return ans;
     }
 };
